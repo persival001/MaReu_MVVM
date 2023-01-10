@@ -1,0 +1,36 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.persival.mareu_mvvm.MainActivity">
+
+    <item
+        android:id="@+id/menu"
+        android:icon="@drawable/ic_baseline_filter_list_24"
+        android:title=""
+        app:showAsAction="always" >
+
+        <menu>
+
+            <item
+                android:id="@+id/location_filter"
+                android:icon="@drawable/ic_baseline_filter_1_24"
+                android:title="@string/location_filter"
+                app:showAsAction="ifRoom" />
+
+            <item
+                android:id="@+id/date_filter"
+                android:icon="@drawable/ic_baseline_calendar_month_24"
+                android:title="@string/date_filter"
+                app:showAsAction="ifRoom" />
+
+            <item
+                android:id="@+id/no_filter"
+                android:icon="@drawable/ic_baseline_filter_list_off_24"
+                android:title="@string/no_filter"
+                app:showAsAction="ifRoom" />
+
+        </menu>
+
+    </item>
+
+</menu>

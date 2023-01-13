@@ -16,17 +16,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.persival.mareu_mvvm.R;
 import com.persival.mareu_mvvm.databinding.FragmentMeetingBinding;
 import com.persival.mareu_mvvm.model.Meeting;
-import com.persival.mareu_mvvm.repositories.MeetingRepository;
 import com.persival.mareu_mvvm.ui.add.AddMeetingActivity;
-
-import java.util.List;
 
 
 public class MeetingFragment extends Fragment {
 
     private FragmentMeetingBinding binding;
     private MeetingViewModel meetingViewModel;
-    private RecyclerView recyclerView;
+
     private final MeetingRecyclerViewAdapter meetingRecyclerViewAdapter = new MeetingRecyclerViewAdapter(new EventsMeeting() {
         @Override
         public void onDelete(Meeting meeting) {
@@ -37,8 +34,10 @@ public class MeetingFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        meetingViewModel = new ViewModelProvider(this).get(MeetingViewModel.class);
-        initObserver();
+        meetingViewModel = new ViewModelProvider(requireActivity()).get(MeetingViewModel.class);
+        meetingViewModel.meetingsLiveData.observe(this, meetings -> {
+            meetingRecyclerViewAdapter.setMeetings(meetings);
+        });
     }
 
     @Override
@@ -48,11 +47,17 @@ public class MeetingFragment extends Fragment {
         binding = FragmentMeetingBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         meetingViewModel.getMeetings(null, null);
-        recyclerView = root.findViewById(R.id.listOfMeeting);
 
-        initRecyclerView ();
+        initRecyclerView (root);
 
         return root;
+    }
+
+    public void initRecyclerView (View root){
+        RecyclerView recyclerView = root.findViewById(R.id.listOfMeeting);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
+        recyclerView.setAdapter(meetingRecyclerViewAdapter);
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -60,18 +65,6 @@ public class MeetingFragment extends Fragment {
         binding.floatingActionButton.setOnClickListener(view1 -> {
             Intent startAddMeetingActivity = new Intent(view1.getContext(), AddMeetingActivity.class);
             view1.getContext().startActivity(startAddMeetingActivity);
-        });
-    }
-
-    private void initRecyclerView () {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
-        recyclerView.setAdapter(meetingRecyclerViewAdapter);
-    }
-
-    private void initObserver () {
-        meetingViewModel.meetingsLiveData.observe(this, meetings -> {
-            meetingRecyclerViewAdapter.setMeetings(meetings);
         });
     }
 

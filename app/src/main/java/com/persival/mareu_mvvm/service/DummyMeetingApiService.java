@@ -2,7 +2,6 @@ package com.persival.mareu_mvvm.service;
 
 import com.persival.mareu_mvvm.model.Meeting;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

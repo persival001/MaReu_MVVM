@@ -13,9 +13,13 @@ public class MeetingRepository{
 
     private final MeetingApiService service = DI.getMeetingApiService();
     private static MeetingRepository INSTANCE;
+    private final List<String> participants = new ArrayList<>();
 
     /**
-     * Singleton
+     * A Singleton can only be instantiated once
+     *
+     * New instance of MeetingRepository if null
+     * or getInstance if non-null
      */
     public MeetingRepository() { }
 
@@ -41,7 +45,7 @@ public class MeetingRepository{
         if (filterType.equals("room")) {
             return filteredByRoom(filterValue);
         }
-        return null;
+        return service.getMeetings();
     }
 
     /**
@@ -129,5 +133,9 @@ public class MeetingRepository{
             default:
                 return "1";
         }
+    }
+
+    public List<String> getParticipants(){
+        return participants;
     }
 }

@@ -5,7 +5,7 @@ import com.persival.mareu_mvvm.model.Meeting;
 public interface EventsMeeting {
 
     /**
-     * Delete.
+     * onDelete function implemented in MeetingFragment
      *
      * @param meeting the meeting
      */

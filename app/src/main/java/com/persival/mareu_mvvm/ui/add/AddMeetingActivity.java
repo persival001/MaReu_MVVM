@@ -6,14 +6,18 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.TextInputEditText;
 import com.persival.mareu_mvvm.R;
 import com.persival.mareu_mvvm.databinding.ActivityAddMeetingBinding;
@@ -32,7 +36,6 @@ public class AddMeetingActivity extends AppCompatActivity implements AdapterView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_add_meeting);
 
         addMeetingViewModel = new ViewModelProvider(this).get(AddMeetingViewModel.class);
@@ -45,17 +48,11 @@ public class AddMeetingActivity extends AppCompatActivity implements AdapterView
         initBinding();
 
         addMeetingViewModel.getIsSaveButtonEnabledLiveData().observe(this, isSaveButtonEnabled -> binding.saveButton.setEnabled(isSaveButtonEnabled));
-        addMeetingViewModel.needToClose().observe(this, isCloseEnabled -> closeActivity(isCloseEnabled));
-    }
-
-    private void closeActivity(boolean close){
-        if (close) {
-            finish();
-        }
+        addMeetingViewModel.needToClose().observe(this, this::closeActivity);
     }
 
     /**
-     * Binding of all elements (set and get)
+     * Binding all elements (set and get)
      * Bind participants for enabled the save button
      */
     private void initBinding() {
@@ -65,13 +62,80 @@ public class AddMeetingActivity extends AppCompatActivity implements AdapterView
 
         bindParticipants(addMeetingViewModel, binding.participantsInput);
 
-        binding.saveButton.setOnClickListener(v -> addMeetingViewModel.onAddButtonClicked(
-                Objects.requireNonNull(binding.nameOfMeeting.getText()).toString(),
-                binding.datePickerButton.getText().toString(),
-                binding.startTimeButton.getText().toString(),
-                binding.roomChoiceAddMeeting.getSelectedItem().toString(),
-                Objects.requireNonNull(binding.participantsInput.getText()).toString()
-        ));
+        participantEmailToChip();
+        onSaveButtonClick();
+    }
+
+    /**
+     * Create a Chip for new email participant and add it to participants list
+     *
+     */
+    private void participantEmailToChip(){
+    binding.emailOkButton.setOnClickListener(view -> {
+    if (!Objects.requireNonNull(binding.participantsInput.getText()).toString().isEmpty() &&
+            Patterns.EMAIL_ADDRESS.matcher(binding.participantsInput.getText().toString()).matches()) {
+        Chip emailParticipant = new Chip(this);
+        emailParticipant.setCloseIconVisible(true);
+        emailParticipant.setText(binding.participantsInput.getText().toString());
+        emailParticipant.setOnCloseIconClickListener(view1 -> {
+            binding.chips.removeView(emailParticipant);
+            addMeetingViewModel.getParticipants().remove(emailParticipant.getText().toString());
+        });
+        binding.chips.addView(emailParticipant);
+        addMeetingViewModel.getParticipants().add(emailParticipant.getText().toString());
+        binding.participantsLayout.setError(null);
+        binding.participantsInput.setText("");
+        binding.participantsInput.onEditorAction(EditorInfo.IME_ACTION_DONE);
+    }
+    else {
+        binding.participantsLayout.setError("Veuillez entrer une adresse mail valide");
+    }
+});
+    }
+
+    /**
+     * Verification of all entry of user on save button click
+     *
+     */
+    private void onSaveButtonClick(){
+        binding.saveButton.setOnClickListener(v -> {
+            if (Objects.requireNonNull(binding.nameOfMeeting.getText()).toString().isEmpty()) {
+                Toast.makeText(this, "Merci de remplir le champs 'Objet de la réunion'", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (binding.startTimeButton.getText().toString().equals("Heure de la réunion")) {
+                Toast.makeText(this, "Merci de remplir le champs 'Heure de la réunion'", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (!Objects.requireNonNull(binding.participantsInput.getText()).toString().isEmpty() &&
+                    !Patterns.EMAIL_ADDRESS.matcher(binding.participantsInput.getText().toString()).matches()) {
+                Toast.makeText(this, "Veuillez entrer une adresse mail valide", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (addMeetingViewModel.getParticipants().size() < 2) {
+                Toast.makeText(this, "Veuillez entrer au moins 2 adresses mail", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                addMeetingViewModel.onAddButtonClicked(
+                        Objects.requireNonNull(binding.nameOfMeeting.getText()).toString(),
+                        binding.datePickerButton.getText().toString(),
+                        binding.startTimeButton.getText().toString(),
+                        binding.roomChoiceAddMeeting.getSelectedItem().toString()
+                );
+            }
+        });
+    }
+
+    /**
+     * Boolean for close activity from AddMeetingViewModel
+     */
+    private void closeActivity(boolean close){
+        if (close) {
+            finish();
+        }
     }
 
     /**
@@ -165,7 +229,6 @@ public class AddMeetingActivity extends AppCompatActivity implements AdapterView
         datePickerDialog.show();
     }
 
-
     /**
      * Show time picker for select the start hour meeting
      */
@@ -182,6 +245,10 @@ public class AddMeetingActivity extends AppCompatActivity implements AdapterView
         timePickerDialog.show();
     }
 
+    /**
+     * onItemSelected and onNothingSelected is for adapter view
+     * of the spinner for select the position of the room place
+     */
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
         String text = adapterView.getItemAtPosition(position).toString();
@@ -191,6 +258,10 @@ public class AddMeetingActivity extends AppCompatActivity implements AdapterView
     public void onNothingSelected(AdapterView<?> adapterView) {
     }
 
+    /**
+     * Text watcher on e-mail participants for enabled or disabled
+     * the save button
+     */
     private void bindParticipants(AddMeetingViewModel viewModel, TextInputEditText participantsEditText) {
         participantsEditText.addTextChangedListener(new TextWatcher() {
             @Override

@@ -48,6 +48,17 @@
     <string name="_8_00">8:00</string>
     <string name="no_filter">nofilter</string>
     <string name="room_one">Room One</string>
+    <string name="start_hour">Start hour</string>
+    <string name="nouvelle_reunion">NOUVELLE REUNION</string>
+    <string name="objet_de_la_r_union">Objet de la réunion</string>
+    <string name="date_de_la_r_union">Date de la réunion</string>
+    <string name="heure_de_la_r_union">Heure de la réunion</string>
+    <string name="num_ro_de_salle_de_r_union">Numéro de salle de réunion</string>
+    <string name="e_mails_des_participants">E-mails des participants</string>
+    <string name="enregistrer">Enregistrer</string>
+    <string name="scroll_view">scroll_view</string>
+    <string name="ok">OK</string>
+    <string name="valid_email">Valid email</string>
     <!-- Strings used for the choice of the meeting room -->
 
     <string-array name="roomNumber">

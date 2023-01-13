@@ -12,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.persival.mareu_mvvm.databinding.ActivityMainBinding;
-import com.persival.mareu_mvvm.ui.home.EventsMeeting;
-import com.persival.mareu_mvvm.ui.home.MeetingRecyclerViewAdapter;
 import com.persival.mareu_mvvm.ui.home.MeetingViewModel;
 import com.persival.mareu_mvvm.ui.utils.SpinnerDialogFragment;
 

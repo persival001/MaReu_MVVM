@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace 'com.persival.mareu_mvvm'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.persival.mareu_mvvm"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -29,11 +29,21 @@ android {
     buildFeatures {
         viewBinding true
     }
+
+    task generateJavadoc(type: Javadoc) {
+        title = "Javadoc MaRéu"
+        description "La javadoc de MaRéu"
+        failOnError = false
+        source = "MonProjet/src"
+        options.charSet = "UTF-8"
+        destinationDir = new File("build/target/javadoc")
+    }
+
 }
 
 dependencies {
 
-    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'androidx.appcompat:appcompat:1.6.0'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.navigation:navigation-fragment:2.5.3'
@@ -48,6 +58,6 @@ dependencies {
     testImplementation 'org.hamcrest:java-hamcrest:2.0.0.0'
 
     // Implemented Tests
-    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }

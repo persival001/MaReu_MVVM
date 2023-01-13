@@ -7,8 +7,9 @@ import androidx.lifecycle.ViewModel;
 
 import com.persival.mareu_mvvm.model.Meeting;
 import com.persival.mareu_mvvm.repositories.MeetingRepository;
-import com.persival.mareu_mvvm.ui.home.MeetingViewModel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class AddMeetingViewModel extends ViewModel{
@@ -33,7 +34,7 @@ public class AddMeetingViewModel extends ViewModel{
     private final MutableLiveData<Boolean> isSaveButtonEnabled = new MutableLiveData<>(false);
 
     /**
-     * LiveData for finish AddMeetingActivity, Default value is false
+     * LiveData for finish AddMeeting Activity, Default value is false
      */
     private final MutableLiveData<Boolean> isFinish = new MutableLiveData<>(false);
 
@@ -41,7 +42,7 @@ public class AddMeetingViewModel extends ViewModel{
     /**
      * Need to close live data.
      *
-     * @return the live data
+     * @return the Boolean live data for close Activity
      */
     public LiveData<Boolean> needToClose() {
         return isFinish;
@@ -57,12 +58,12 @@ public class AddMeetingViewModel extends ViewModel{
     }
 
     /**
-     * On participants changed.
+     * Set value isEmpty for Save button if participants is empty
      *
      * @param participants the participants
      */
     public void onParticipantsChanged(String participants) {
-        isSaveButtonEnabled.setValue(!participants.isEmpty());
+        isSaveButtonEnabled.setValue(getParticipants().size()>0);
     }
 
     /**
@@ -75,22 +76,32 @@ public class AddMeetingViewModel extends ViewModel{
      * @param date         the date
      * @param startHour    the start hour
      * @param roomNumber   the room number
-     * @param participants the participants
      */
     public void onAddButtonClicked(
             String topic,
             String date,
             String startHour,
-            String roomNumber,
-            String participants
+            String roomNumber
     ) {
 
           if (Objects.equals(topic, "")) {
              topic = "Réunion";
          }
 
-        Meeting meeting = new Meeting(maxId++,topic, date, startHour,meetingRepository.getRoomString(roomNumber),participants);
+        Meeting meeting = new Meeting(maxId++,topic, date, startHour,meetingRepository.getRoomString(roomNumber),listOfEmailParticipantsToString());
         meetingRepository.addMeeting(meeting);
         isFinish.setValue(true);
+    }
+
+    public List <String> getParticipants(){
+        return meetingRepository.getParticipants();
+    }
+
+    public String listOfEmailParticipantsToString() {
+        String participantsString = "";
+        for (int i = 0; i < getParticipants().size(); i++) {
+            participantsString = participantsString + getParticipants().get(i) + "   ";
+        }
+        return participantsString;
     }
 }

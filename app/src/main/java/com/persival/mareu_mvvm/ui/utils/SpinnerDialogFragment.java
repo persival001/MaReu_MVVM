@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +29,8 @@ public class SpinnerDialogFragment extends DialogFragment implements AdapterView
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // Je ne suis pas sur que tu aies besoin du builder puisque tu ne l'utilises pas et tu passes plutôt la View
+        // entière avec le ViewBinding
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         binding = DialogFragmentSpinnerBinding.inflate(getLayoutInflater());
         builder.setView(binding.getRoot()).create();
@@ -44,17 +45,17 @@ public class SpinnerDialogFragment extends DialogFragment implements AdapterView
      * Auto completion for list of rooms
      */
     private void initAutoCompletion() {
-        Spinner spinner = binding.roomChoice;
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.roomNumber, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
-    }
+        // Pas besoin de capturer la variable ici, tu peux l'utiliser direct :)
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        // Habitue toi à "casser" tes lignes trop longues dans ce style, on fera pareil en Kotlin
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+            getContext(),
+            R.array.roomNumber,
+            android.R.layout.simple_spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.roomChoice.setAdapter(adapter);
+        binding.roomChoice.setOnItemSelectedListener(this);
     }
 
     @Override
@@ -75,6 +76,8 @@ public class SpinnerDialogFragment extends DialogFragment implements AdapterView
     private void onClickOkButton(String room) {
         binding.okButton.setOnClickListener(view -> {
             meetingViewModel.getMeetings("room", room);
+            // La vue décide d'elle même de se fermer, ça serait mieux de mettre ce comportement dans le ViewModel
+            // pour le tester unitairement, non ?
             SpinnerDialogFragment.this.dismiss();
         });
     }

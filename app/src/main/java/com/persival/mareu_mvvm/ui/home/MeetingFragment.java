@@ -11,29 +11,29 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.persival.mareu_mvvm.R;
 import com.persival.mareu_mvvm.databinding.FragmentMeetingBinding;
 import com.persival.mareu_mvvm.model.Meeting;
 import com.persival.mareu_mvvm.ui.add.AddMeetingActivity;
-
 
 public class MeetingFragment extends Fragment {
 
     private FragmentMeetingBinding binding;
     private MeetingViewModel meetingViewModel;
 
-    private final MeetingRecyclerViewAdapter meetingRecyclerViewAdapter = new MeetingRecyclerViewAdapter(new EventsMeeting() {
-        @Override
-        public void onDelete(Meeting meeting) {
-            meetingViewModel.deleteMeeting(meeting);
+    private final MeetingRecyclerViewAdapter meetingRecyclerViewAdapter = new MeetingRecyclerViewAdapter(
+        new EventsMeeting() {
+            @Override
+            public void onDelete(Meeting meeting) {
+                meetingViewModel.deleteMeeting(meeting);
+            }
         }
-    });
+    );
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Très dangereux et très mauvaise pratique le "Shared ViewModel". Utilise plutôt `new ViewModelProvider(this)`
         meetingViewModel = new ViewModelProvider(requireActivity()).get(MeetingViewModel.class);
         meetingViewModel.meetingsLiveData.observe(this, meetings -> {
             meetingRecyclerViewAdapter.setMeetings(meetings);
@@ -42,34 +42,40 @@ public class MeetingFragment extends Fragment {
 
     @Override
     public View onCreateView(
-            @NonNull LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+        @NonNull LayoutInflater inflater,
+        ViewGroup container,
+        Bundle savedInstanceState
+    ) {
         binding = FragmentMeetingBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
         meetingViewModel.getMeetings(null, null);
 
-        initRecyclerView (root);
+        initRecyclerView(binding);
 
-        return root;
+        return binding.getRoot();
     }
 
-    public void initRecyclerView (View root){
-        RecyclerView recyclerView = root.findViewById(R.id.listOfMeeting);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL));
-        recyclerView.setAdapter(meetingRecyclerViewAdapter);
+    public void initRecyclerView(FragmentMeetingBinding binding) {
+        // findViewById est à bannir lorsqu'on utilise le ViewBinding :)
+        binding.listOfMeeting.setLayoutManager(new LinearLayoutManager(getActivity()));
+        binding.listOfMeeting.addItemDecoration(new DividerItemDecoration(
+            requireContext(),
+            DividerItemDecoration.VERTICAL
+        ));
+        binding.listOfMeeting.setAdapter(meetingRecyclerViewAdapter);
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.floatingActionButton.setOnClickListener(view1 -> {
-            Intent startAddMeetingActivity = new Intent(view1.getContext(), AddMeetingActivity.class);
-            view1.getContext().startActivity(startAddMeetingActivity);
+        binding.floatingActionButton.setOnClickListener(v -> {
+            // Normalement, seules les Activity peuvent s'appeler entre elles, ou on utilise un objet commun genre
+            // "Navigator" pour gérer la navigation au sein de l'application
+            Intent startAddMeetingActivity = new Intent(v.getContext(), AddMeetingActivity.class);
+            v.getContext().startActivity(startAddMeetingActivity);
         });
     }
 
     @Override
-    public void onDestroyView () {
+    public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }

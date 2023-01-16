@@ -9,33 +9,33 @@ import com.persival.mareu_mvvm.service.MeetingApiService;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MeetingRepository{
+public class MeetingRepository {
 
+    // Ne t'embête pas à avoir un Repository qui a un "ApiService" (ça veut même rien dire ApiService lol)
     private final MeetingApiService service = DI.getMeetingApiService();
     private static MeetingRepository INSTANCE;
     private final List<String> participants = new ArrayList<>();
 
-    /**
-     * A Singleton can only be instantiated once
-     *
-     * New instance of MeetingRepository if null
-     * or getInstance if non-null
-     */
-    public MeetingRepository() { }
+    // Si tu voulais faire un singleton, il faut mettre son constructeur en privé comme ça, la seule façon de récupérer
+    // une instance dans la classe, c'est via la fonction static getInstance()
+    // Mais si tu le fais, tu vas avoir des problèmes pour injecter ton `AddMeetingViewModel`. Il faudra donc utiliser
+    // une ViewModelFactory en Singleton pour gérer ton injection de dépendance. Et tu pourras aussi virer la classe DI
+    // comme ça, elle fera doublon avec la ViewModelFactory !
+    public MeetingRepository() {
+    }
 
     public static MeetingRepository getInstance() {
-        if (INSTANCE == null)
+        if (INSTANCE == null) {
             INSTANCE = new MeetingRepository();
+        }
 
         return INSTANCE;
     }
 
     /**
-     * Get example meetings list.
-     *
-     * @return the list
+     * @return the Meeting list
      */
-    public List<Meeting> getMeetings(String filterType, String filterValue){
+    public List<Meeting> getMeetings(String filterType, String filterValue) {
         if (filterType == null) {
             return service.getMeetings();
         }
@@ -49,30 +49,23 @@ public class MeetingRepository{
     }
 
     /**
-     * Delete meeting.
+     * Deletes a meeting.
      *
      * @param meeting the meeting
      */
-    public List<Meeting> deleteMeeting(Meeting meeting){
+    public List<Meeting> deleteMeeting(Meeting meeting) {
         service.deleteMeeting(meeting);
         return service.getMeetings();
     }
 
     /**
-     * Add meeting.
-     *
+     * Add a meeting.
      */
     public void addMeeting(Meeting meeting) {
         service.addMeeting(meeting);
     }
 
-    /**
-     * Filtered by date list.
-     *
-     * @param date the date
-     * @return the list
-     */
-
+    // Ca ne devrait pas être fait côté Repository ça, mais plutôt dans le ViewModel qui s'occupe d'afficher ces données
     public List<Meeting> filteredByDate(String date) {
         List<Meeting> meetings = service.getMeetings();
         List<Meeting> meetingListByDate = new ArrayList<>();
@@ -84,15 +77,10 @@ public class MeetingRepository{
         return meetingListByDate;
     }
 
-    /**
-     * Filtered by room list.
-     *
-     * @param room the room
-     * @return the list
-     */
+    // Ca ne devrait pas être fait côté Repository ça, mais plutôt dans le ViewModel qui s'occupe d'afficher ces données
     public List<Meeting> filteredByRoom(String room) {
         List<Meeting> meetings = service.getMeetings();
-       List<Meeting> meetingListByRoom = new ArrayList<>();
+        List<Meeting> meetingListByRoom = new ArrayList<>();
         for (Meeting meeting : meetings) {
             if (meeting.getMeetingRoom().equals(room)) {
                 meetingListByRoom.add(meeting);
@@ -101,14 +89,10 @@ public class MeetingRepository{
         return meetingListByRoom;
     }
 
-    /**
-     * Gets room string.
-     *
-     * @param roomSpinner the room number
-     * @return the room string
-     */
+    // Une petite enum ça serait mieux là :D
+    // Attention, notion de "spinner" dans le Repository, le Repo n'a aucune connaissance de la View
     public String getRoomString(@NonNull String roomSpinner) {
-        switch(roomSpinner) {
+        switch (roomSpinner) {
             case "Room One":
                 return "1";
             case "Room Two":
@@ -135,7 +119,8 @@ public class MeetingRepository{
         }
     }
 
-    public List<String> getParticipants(){
+    // A faire je présume ?
+    public List<String> getParticipants() {
         return participants;
     }
 }

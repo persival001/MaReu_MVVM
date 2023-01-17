@@ -1,5 +1,6 @@
 package com.persival.mareu_mvvm.ui.home;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -39,10 +40,34 @@ public class  MeetingViewModel extends ViewModel {
     /**
      * Gets room string.
      *
-     * @param roomSpinner the room spinner
+     * @param roomSpinner the room number
      * @return the room string
      */
-    public String getRoomString(String roomSpinner) {
-        return MeetingRepository.getInstance().getRoomString(roomSpinner);
+    public String getRoomString(@NonNull String roomSpinner) {
+        switch (roomSpinner) {
+            case "Room One":
+                return "1";
+            case "Room Two":
+                return "2";
+            case "Room Three":
+                return "3";
+            case "Room Four":
+                return "4";
+            case "Room Five":
+                return "5";
+            case "Room Six":
+                return "6";
+            case "Room Seven":
+                return "7";
+            case "Room Eight":
+                return "8";
+            case "Room Nine":
+                return "9";
+            case "Room Ten":
+                return "10";
+
+            default:
+                return "1";
+        }
     }
 }

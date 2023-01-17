@@ -59,6 +59,17 @@
     <string name="scroll_view">scroll_view</string>
     <string name="ok">OK</string>
     <string name="valid_email">Valid email</string>
+    <string name="heure_de_d_but_de_r_union">Heure de début de réunion</string>
+    <string name="ajouter_un_mail">Ajouter un mail</string>
+    <string name="erreur_objet_reunion">Merci de remplir le champs -Objet de la réunion-</string>
+    <string name="erreur_heure_reunion">Merci de remplir le champs -Heure de la réunion-</string>
+    <string name="erreur_mail">Veuillez entrer une adresse mail valide</string>
+    <string name="erreur_minimum_mails">Veuillez entrer au moins 2 adresses mail</string>
+    Merci de remplir le champs 'Objet de la réunion'
+
+
+
+
     <!-- Strings used for the choice of the meeting room -->
 
     <string-array name="roomNumber">

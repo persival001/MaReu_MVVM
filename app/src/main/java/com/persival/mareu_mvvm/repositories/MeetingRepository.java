@@ -1,7 +1,5 @@
 package com.persival.mareu_mvvm.repositories;
 
-import androidx.annotation.NonNull;
-
 import com.persival.mareu_mvvm.di.DI;
 import com.persival.mareu_mvvm.model.Meeting;
 import com.persival.mareu_mvvm.service.MeetingApiService;
@@ -9,33 +7,32 @@ import com.persival.mareu_mvvm.service.MeetingApiService;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MeetingRepository{
+public class MeetingRepository {
 
-    private final MeetingApiService service = DI.getMeetingApiService();
     private static MeetingRepository INSTANCE;
+    private final MeetingApiService service = DI.getMeetingApiService();
     private final List<String> participants = new ArrayList<>();
 
+    public long maxId = 8;
+
     /**
-     * A Singleton can only be instantiated once
-     *
-     * New instance of MeetingRepository if null
-     * or getInstance if non-null
+     * Singleton for get instance of MeetingRepository
      */
-    public MeetingRepository() { }
+    public MeetingRepository() {
+    }
 
     public static MeetingRepository getInstance() {
-        if (INSTANCE == null)
+        if (INSTANCE == null) {
             INSTANCE = new MeetingRepository();
+        }
 
         return INSTANCE;
     }
 
     /**
-     * Get example meetings list.
-     *
-     * @return the list
+     * Return the meeting list
      */
-    public List<Meeting> getMeetings(String filterType, String filterValue){
+    public List<Meeting> getMeetings(String filterType, String filterValue) {
         if (filterType == null) {
             return service.getMeetings();
         }
@@ -49,25 +46,24 @@ public class MeetingRepository{
     }
 
     /**
-     * Delete meeting.
+     * Deletes a meeting.
      *
      * @param meeting the meeting
      */
-    public List<Meeting> deleteMeeting(Meeting meeting){
+    public List<Meeting> deleteMeeting(Meeting meeting) {
         service.deleteMeeting(meeting);
         return service.getMeetings();
     }
 
     /**
-     * Add meeting.
-     *
+     * Add a meeting.
      */
     public void addMeeting(Meeting meeting) {
         service.addMeeting(meeting);
     }
 
     /**
-     * Filtered by date list.
+     * Return the filtered list by date
      *
      * @param date the date
      * @return the list
@@ -85,14 +81,14 @@ public class MeetingRepository{
     }
 
     /**
-     * Filtered by room list.
+     * Return the filtered list by room
      *
      * @param room the room
      * @return the list
      */
     public List<Meeting> filteredByRoom(String room) {
         List<Meeting> meetings = service.getMeetings();
-       List<Meeting> meetingListByRoom = new ArrayList<>();
+        List<Meeting> meetingListByRoom = new ArrayList<>();
         for (Meeting meeting : meetings) {
             if (meeting.getMeetingRoom().equals(room)) {
                 meetingListByRoom.add(meeting);
@@ -102,40 +98,21 @@ public class MeetingRepository{
     }
 
     /**
-     * Gets room string.
-     *
-     * @param roomSpinner the room number
-     * @return the room string
+     * Return the list of participants email
      */
-    public String getRoomString(@NonNull String roomSpinner) {
-        switch(roomSpinner) {
-            case "Room One":
-                return "1";
-            case "Room Two":
-                return "2";
-            case "Room Three":
-                return "3";
-            case "Room Four":
-                return "4";
-            case "Room Five":
-                return "5";
-            case "Room Six":
-                return "6";
-            case "Room Seven":
-                return "7";
-            case "Room Eight":
-                return "8";
-            case "Room Nine":
-                return "9";
-            case "Room Ten":
-                return "10";
-
-            default:
-                return "1";
-        }
+    public List<String> getParticipants() {
+        return participants;
     }
 
-    public List<String> getParticipants(){
-        return participants;
+    public void addNewMeeting(
+            String topic,
+            String date,
+            String startHour,
+            String roomNumber,
+            String emails
+    ) {
+
+        Meeting meeting = new Meeting(maxId++, topic, date, startHour, roomNumber, emails);
+        addMeeting(meeting);
     }
 }

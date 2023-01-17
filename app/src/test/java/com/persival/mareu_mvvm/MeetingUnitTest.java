@@ -45,6 +45,7 @@ import java.util.List;
         @Test
         public void deleteMeetingWithSuccess() {
             Meeting meetingToDelete = service.getMeetings().get(0);
+            assertTrue(service.getMeetings().contains(meetingToDelete));
             service.deleteMeeting(meetingToDelete);
             assertFalse(service.getMeetings().contains(meetingToDelete));
         }
@@ -54,9 +55,10 @@ import java.util.List;
          */
         @Test
         public void addMeetingWithSuccess() {
-            Meeting meetingToAdd = service.getMeetings().get(0);
-            service.addMeeting(meetingToAdd);
-            assertTrue(service.getMeetings().contains(meetingToAdd));
+            Meeting meeting = new Meeting(20,"Reunion", "12 FEV 2023", "10:00","1","jean@aol.com");
+            assertFalse(service.getMeetings().contains(meeting));
+            service.getMeetings().add(meeting);
+            assertTrue(service.getMeetings().contains(meeting));
         }
 
         /**
@@ -66,6 +68,7 @@ import java.util.List;
         public void filterMeetingByRoomWithSuccess() {
             List <Meeting> getFilterMeetingByRoom = MeetingRepository.getInstance().getMeetings("room", "1");
             assertEquals(1, getFilterMeetingByRoom.size());
+            assertEquals("1", getFilterMeetingByRoom.get(0).getMeetingRoom());
         }
 
         /**
@@ -75,5 +78,18 @@ import java.util.List;
         public void filterMeetingByDateWithSuccess() {
             List <Meeting> getFilterMeetingByDate = MeetingRepository.getInstance().getMeetings("date", "1 FEV 2023");
             assertEquals(2, getFilterMeetingByDate.size());
+            assertEquals("1 FEV 2023", getFilterMeetingByDate.get(0).getDate());
+            assertEquals("1 FEV 2023", getFilterMeetingByDate.get(1).getDate());
+        }
+
+        /**
+         * Filter meeting by date with success.
+         */
+        @Test
+        public void noFilteredListWithSuccess() {
+            List <Meeting> getFilterMeetingByDate = MeetingRepository.getInstance().getMeetings("date", "1 FEV 2023");
+            assertEquals(2, getFilterMeetingByDate.size());
+            assertEquals("1 FEV 2023", getFilterMeetingByDate.get(0).getDate());
+            assertEquals("1 FEV 2023", getFilterMeetingByDate.get(1).getDate());
         }
     }

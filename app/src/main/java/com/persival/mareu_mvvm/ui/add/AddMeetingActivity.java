@@ -31,12 +31,13 @@ public class AddMeetingActivity extends AppCompatActivity implements AdapterView
     private AddMeetingViewModel addMeetingViewModel;
     private DatePickerDialog datePickerDialog;
     private ActivityAddMeetingBinding binding;
-    private int hour, minute;
+
+    private int hour;
+    private int minute;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_meeting);
 
         addMeetingViewModel = new ViewModelProvider(this).get(AddMeetingViewModel.class);
 
@@ -47,9 +48,12 @@ public class AddMeetingActivity extends AppCompatActivity implements AdapterView
         initDatePicker();
         initBinding();
 
-        addMeetingViewModel.getIsSaveButtonEnabledLiveData().observe(this, isSaveButtonEnabled -> binding.saveButton.setEnabled(isSaveButtonEnabled));
-        addMeetingViewModel.needToClose().observe(this, this::closeActivity);
+        addMeetingViewModel.getIsSaveButtonEnabledLiveData().observe(this, isSaveButtonEnabled ->
+                binding.saveButton.setEnabled(isSaveButtonEnabled)
+        );
+        addMeetingViewModel.needToClose().observe(this, aVoid -> closeActivity());
     }
+
 
     /**
      * Binding all elements (set and get)
@@ -68,57 +72,53 @@ public class AddMeetingActivity extends AppCompatActivity implements AdapterView
 
     /**
      * Create a Chip for new email participant and add it to participants list
-     *
      */
-    private void participantEmailToChip(){
-    binding.emailOkButton.setOnClickListener(view -> {
-    if (!Objects.requireNonNull(binding.participantsInput.getText()).toString().isEmpty() &&
-            Patterns.EMAIL_ADDRESS.matcher(binding.participantsInput.getText().toString()).matches()) {
-        Chip emailParticipant = new Chip(this);
-        emailParticipant.setCloseIconVisible(true);
-        emailParticipant.setText(binding.participantsInput.getText().toString());
-        emailParticipant.setOnCloseIconClickListener(view1 -> {
-            binding.chips.removeView(emailParticipant);
-            addMeetingViewModel.getParticipants().remove(emailParticipant.getText().toString());
+    private void participantEmailToChip() {
+        binding.emailOkButton.setOnClickListener(view -> {
+            if (!Objects.requireNonNull(binding.participantsInput.getText()).toString().isEmpty() &&
+                    Patterns.EMAIL_ADDRESS.matcher(binding.participantsInput.getText().toString()).matches()) {
+                Chip emailParticipant = new Chip(this);
+                emailParticipant.setCloseIconVisible(true);
+                emailParticipant.setText(binding.participantsInput.getText().toString());
+                emailParticipant.setOnCloseIconClickListener(view1 -> {
+                    binding.chips.removeView(emailParticipant);
+                    addMeetingViewModel.getParticipants().remove(emailParticipant.getText().toString());
+                });
+                binding.chips.addView(emailParticipant);
+                addMeetingViewModel.getParticipants().add(emailParticipant.getText().toString());
+                binding.participantsLayout.setError(null);
+                binding.participantsInput.setText("");
+                binding.participantsInput.onEditorAction(EditorInfo.IME_ACTION_DONE);
+            } else {
+                binding.participantsLayout.setError(getString(R.string.erreur_mail));
+            }
         });
-        binding.chips.addView(emailParticipant);
-        addMeetingViewModel.getParticipants().add(emailParticipant.getText().toString());
-        binding.participantsLayout.setError(null);
-        binding.participantsInput.setText("");
-        binding.participantsInput.onEditorAction(EditorInfo.IME_ACTION_DONE);
-    }
-    else {
-        binding.participantsLayout.setError("Veuillez entrer une adresse mail valide");
-    }
-});
     }
 
     /**
      * Verification of all entry of user on save button click
-     *
      */
-    private void onSaveButtonClick(){
+    private void onSaveButtonClick() {
         binding.saveButton.setOnClickListener(v -> {
             if (Objects.requireNonNull(binding.nameOfMeeting.getText()).toString().isEmpty()) {
-                Toast.makeText(this, "Merci de remplir le champs 'Objet de la réunion'", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getText(R.string.erreur_objet_reunion), Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            if (binding.startTimeButton.getText().toString().equals("Heure de la réunion")) {
-                Toast.makeText(this, "Merci de remplir le champs 'Heure de la réunion'", Toast.LENGTH_SHORT).show();
+            if (binding.startTimeButton.getText().toString().equals(getString(R.string.heure_de_la_r_union))) {
+                Toast.makeText(this, R.string.erreur_heure_reunion, Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if (!Objects.requireNonNull(binding.participantsInput.getText()).toString().isEmpty() &&
                     !Patterns.EMAIL_ADDRESS.matcher(binding.participantsInput.getText().toString()).matches()) {
-                Toast.makeText(this, "Veuillez entrer une adresse mail valide", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.erreur_mail, Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if (addMeetingViewModel.getParticipants().size() < 2) {
-                Toast.makeText(this, "Veuillez entrer au moins 2 adresses mail", Toast.LENGTH_SHORT).show();
-            }
-            else {
+                Toast.makeText(this, R.string.erreur_minimum_mails, Toast.LENGTH_SHORT).show();
+            } else {
                 addMeetingViewModel.onAddButtonClicked(
                         Objects.requireNonNull(binding.nameOfMeeting.getText()).toString(),
                         binding.datePickerButton.getText().toString(),
@@ -130,16 +130,14 @@ public class AddMeetingActivity extends AppCompatActivity implements AdapterView
     }
 
     /**
-     * Boolean for close activity from AddMeetingViewModel
+     * Close activity from AddMeetingViewModel
      */
-    private void closeActivity(boolean close){
-        if (close) {
-            finish();
-        }
+    private void closeActivity() {
+        finish();
     }
 
     /**
-     * Auto completion for list of rooms
+     * Auto completion for spinner (list of rooms)
      */
     private void initAutoCompletion() {
         Spinner spinner = findViewById(R.id.roomChoiceAddMeeting);
@@ -194,31 +192,42 @@ public class AddMeetingActivity extends AppCompatActivity implements AdapterView
      * Convert month number to String
      */
     private String getMonthFormat(int month) {
-        if (month == 1)
+        if (month == 1) {
             return "JAN";
-        if (month == 2)
+        }
+        if (month == 2) {
             return "FEV";
-        if (month == 3)
+        }
+        if (month == 3) {
             return "MAR";
-        if (month == 4)
+        }
+        if (month == 4) {
             return "AVR";
-        if (month == 5)
+        }
+        if (month == 5) {
             return "MAI";
-        if (month == 6)
+        }
+        if (month == 6) {
             return "JUN";
-        if (month == 7)
+        }
+        if (month == 7) {
             return "JUL";
-        if (month == 8)
+        }
+        if (month == 8) {
             return "AOU";
-        if (month == 9)
+        }
+        if (month == 9) {
             return "SEP";
-        if (month == 10)
+        }
+        if (month == 10) {
             return "OCT";
-        if (month == 11)
+        }
+        if (month == 11) {
             return "NOV";
-        if (month == 12)
+        }
+        if (month == 12) {
             return "DEC";
-
+        }
         return "JAN";
     }
 

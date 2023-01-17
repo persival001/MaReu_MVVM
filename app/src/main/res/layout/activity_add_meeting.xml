@@ -55,7 +55,7 @@
         android:layout_marginRight="@dimen/defaultMarge24dp"
         android:width="160dp"
         android:height="50dp"
-        android:contentDescription="@string/heure_de_la_r_union"
+        android:contentDescription="@string/heure_de_d_but_de_r_union"
         android:text="@string/heure_de_la_r_union"
         android:textColor="@color/black"
         android:textSize="16sp"
@@ -112,10 +112,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/defaultMarge24dp"
         android:layout_marginTop="@dimen/inputCaseMarginTop"
-        android:layout_marginEnd="70dp"
         android:contentDescription="@string/e_mails_des_participants"
         android:textColorHint="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/email_ok_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameOfMeetingLayout"
         app:startIconDrawable="@drawable/ic_baseline_email_24">
@@ -130,21 +129,22 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/email_ok_button"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        style="@style/Widget.AppCompat.Button.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:backgroundTint="#00F4F6FC"
-        android:contentDescription="@string/valid_email"
-        android:scaleX="1.8"
-        android:scaleY="1.8"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:icon="@drawable/ic_baseline_add_box_24"
+        android:layout_marginEnd="24dp"
+        android:clickable="true"
+        android:contentDescription="@string/ajouter_un_mail"
+        android:focusable="true"
+        android:src="@drawable/baseline_add_circle_24"
+        app:backgroundTint="#F4F6FC"
         app:layout_constraintBottom_toBottomOf="@+id/participants_layout"
-        app:layout_constraintStart_toEndOf="@+id/participants_layout"
-        app:layout_constraintTop_toTopOf="@+id/participants_layout"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/participants_layout"
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chips"

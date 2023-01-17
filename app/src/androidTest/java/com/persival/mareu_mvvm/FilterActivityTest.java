@@ -5,7 +5,6 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
-import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
@@ -29,25 +28,14 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class FiltersTests {
+public class FilterActivityTest {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void filtersTests() {
-        ViewInteraction appCompatImageButton = onView(
-                allOf(withId(R.id.item_list_delete_button), withContentDescription("delete"),
-                        childAtPosition(
-                                allOf(withId(R.id.item),
-                                        childAtPosition(
-                                                withId(R.id.listOfMeeting),
-                                                3)),
-                                3),
-                        isDisplayed()));
-        appCompatImageButton.perform(click());
-
+    public void filterActivityTest() {
         ViewInteraction actionMenuItemView = onView(
                 allOf(withId(R.id.menu),
                         childAtPosition(
@@ -118,6 +106,16 @@ public class FiltersTests {
                         isDisplayed()));
         materialTextView3.perform(click());
 
+        ViewInteraction materialButton2 = onView(
+                allOf(withId(android.R.id.button1), withText("OK"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withClassName(is("android.widget.LinearLayout")),
+                                        0),
+                                2),
+                        isDisplayed()));
+        materialButton2.perform(click());
+
         ViewInteraction actionMenuItemView4 = onView(
                 allOf(withId(R.id.menu),
                         childAtPosition(
@@ -129,36 +127,6 @@ public class FiltersTests {
         actionMenuItemView4.perform(click());
 
         ViewInteraction materialTextView4 = onView(
-                allOf(withId(androidx.core.R.id.title), withText("Date Filter"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(androidx.appcompat.R.id.content),
-                                        1),
-                                0),
-                        isDisplayed()));
-        materialTextView4.perform(click());
-
-        ViewInteraction materialButton2 = onView(
-                allOf(withId(android.R.id.button1), withText("OK"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        0),
-                                2),
-                        isDisplayed()));
-        materialButton2.perform(click());
-
-        ViewInteraction actionMenuItemView5 = onView(
-                allOf(withId(R.id.menu),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.toolbar),
-                                        1),
-                                0),
-                        isDisplayed()));
-        actionMenuItemView5.perform(click());
-
-        ViewInteraction materialTextView5 = onView(
                 allOf(withId(androidx.core.R.id.title), withText("nofilter"),
                         childAtPosition(
                                 childAtPosition(
@@ -166,7 +134,7 @@ public class FiltersTests {
                                         1),
                                 0),
                         isDisplayed()));
-        materialTextView5.perform(click());
+        materialTextView4.perform(click());
     }
 
     private static Matcher<View> childAtPosition(

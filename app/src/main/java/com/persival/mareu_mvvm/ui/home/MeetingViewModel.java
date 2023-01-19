@@ -6,13 +6,10 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.persival.mareu_mvvm.model.Meeting;
-import com.persival.mareu_mvvm.repositories.MeetingRepository;
+import com.persival.mareu_mvvm.repository.MeetingRepository;
 
 import java.util.List;
 
-/**
- * The type Meeting view model.
- */
 public class MeetingViewModel extends ViewModel {
 
     private final MutableLiveData<List<Meeting>> meetingsMutableLiveData = new MutableLiveData<>();

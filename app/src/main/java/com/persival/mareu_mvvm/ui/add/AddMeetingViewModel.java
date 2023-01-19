@@ -5,19 +5,16 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.persival.mareu_mvvm.repositories.MeetingRepository;
+import com.persival.mareu_mvvm.repository.MeetingRepository;
 
 import java.util.List;
 
 public class AddMeetingViewModel extends ViewModel {
     private final MutableLiveData<Boolean> isSaveButtonEnabled = new MutableLiveData<>(false);
-    /**
-     * LiveData for finish AddMeeting Activity, Default value is false
-     */
     private final MutableLiveData<Void> isFinish = new MutableLiveData<>();
 
     /**
-     * Need to close live data.
+     * LiveData for finish AddMeeting Activity, Default value is false
      *
      * @return the Boolean live data for close Activity
      */
@@ -26,7 +23,7 @@ public class AddMeetingViewModel extends ViewModel {
     }
 
     /**
-     * Gets is save button enabled live data.
+     * Get is save button enabled live data.
      *
      * @return the is save button enabled live data
      */
@@ -45,9 +42,7 @@ public class AddMeetingViewModel extends ViewModel {
 
     /**
      * On add button clicked.
-     * Convert room selected to int.
-     * Add "réunion" for default value to topic.
-     * Add new meeting to repository.
+     * Add new meeting to repository and close the Activity.
      *
      * @param topic      the topic
      * @param date       the date

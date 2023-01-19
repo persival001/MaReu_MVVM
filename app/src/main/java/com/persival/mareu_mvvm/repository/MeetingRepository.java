@@ -1,4 +1,4 @@
-package com.persival.mareu_mvvm.repositories;
+package com.persival.mareu_mvvm.repository;
 
 import com.persival.mareu_mvvm.di.DI;
 import com.persival.mareu_mvvm.model.Meeting;
@@ -10,8 +10,9 @@ import java.util.List;
 public class MeetingRepository {
 
     private static MeetingRepository INSTANCE;
-    private final MeetingApiService service = DI.getMeetingApiService();
     private final List<String> participants = new ArrayList<>();
+    private final MeetingApiService service = DI.getMeetingApiService();
+    private final MeetingApiService newService = DI.getNewInstanceApiService();
 
     public long maxId = 8;
 
@@ -30,7 +31,7 @@ public class MeetingRepository {
     }
 
     /**
-     * Return the meeting list
+     * Return the meeting list selected
      */
     public List<Meeting> getMeetings(String filterType, String filterValue) {
         if (filterType == null) {
@@ -104,6 +105,15 @@ public class MeetingRepository {
         return participants;
     }
 
+    /**
+     * Add new meeting.
+     *
+     * @param topic      the topic
+     * @param date       the date
+     * @param startHour  the start hour
+     * @param roomNumber the room number
+     * @param emails     the emails
+     */
     public void addNewMeeting(String topic, String date, String startHour, String roomNumber, String emails) {
 
         Meeting meeting = new Meeting(maxId++, topic, date, startHour, roomNumber, emails);

@@ -4,7 +4,6 @@
   <component name="JavadocGenerationManager">
     <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Desktop" />
     <option name="OPTION_SCOPE" value="private" />
-    <option name="OTHER_OPTIONS" value="-sourcepath /Users/maitre/Library/Android/sdk/platforms/android-33/android.jar" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />

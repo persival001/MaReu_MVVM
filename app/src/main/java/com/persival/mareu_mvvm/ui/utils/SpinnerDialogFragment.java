@@ -66,7 +66,7 @@ public class SpinnerDialogFragment extends DialogFragment implements AdapterView
     }
 
     /**
-     * Binding of Ok button
+     * Binding the Ok button
      * For choose a room to filter
      */
     private void onClickOkButton(String room) {

@@ -7,7 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.persival.mareu_mvvm.di.DI;
 import com.persival.mareu_mvvm.model.Meeting;
-import com.persival.mareu_mvvm.repositories.MeetingRepository;
+import com.persival.mareu_mvvm.repository.MeetingRepository;
 import com.persival.mareu_mvvm.service.DummyMeetingGenerator;
 import com.persival.mareu_mvvm.service.MeetingApiService;
 

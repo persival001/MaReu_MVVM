@@ -75,7 +75,7 @@
         android:textAlignment="center"
         android:textSize="20sp"
         android:contentDescription="@string/num_ro_de_salle_de_r_union"
-        android:theme="@style/Widget.AppCompat.Spinner.Underlined"
+        android:theme="@style/Widget.AppCompat.DropDownItem.Spinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/startTimeButton" />

@@ -31,6 +31,8 @@ public class DummyMeetingApiService implements MeetingApiService {
      * Api Service addMeeting
      */
     @Override
-    public void addMeeting(Meeting meeting) { meetings.add(meeting); }
+    public void addMeeting(Meeting meeting) {
+        meetings.add(meeting);
+    }
 
 }

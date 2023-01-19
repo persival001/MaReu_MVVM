@@ -54,20 +54,9 @@ public class AddMeetingViewModel extends ViewModel {
      * @param startHour  the start hour
      * @param roomNumber the room number
      */
-    public void onAddButtonClicked(
-            String topic,
-            String date,
-            String startHour,
-            String roomNumber
-    ) {
+    public void onAddButtonClicked(String topic, String date, String startHour, String roomNumber) {
 
-        MeetingRepository.getInstance().addNewMeeting(
-                topic,
-                date,
-                startHour,
-                getRoomString(roomNumber),
-                listOfEmailParticipantsToString()
-        );
+        MeetingRepository.getInstance().addNewMeeting(topic, date, startHour, getRoomString(roomNumber), listOfEmailParticipantsToString());
         isFinish.setValue(null);
     }
 

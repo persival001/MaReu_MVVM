@@ -48,9 +48,7 @@ public class AddMeetingActivity extends AppCompatActivity implements AdapterView
         initDatePicker();
         initBinding();
 
-        addMeetingViewModel.getIsSaveButtonEnabledLiveData().observe(this, isSaveButtonEnabled ->
-                binding.saveButton.setEnabled(isSaveButtonEnabled)
-        );
+        addMeetingViewModel.getIsSaveButtonEnabledLiveData().observe(this, isSaveButtonEnabled -> binding.saveButton.setEnabled(isSaveButtonEnabled));
         addMeetingViewModel.needToClose().observe(this, aVoid -> closeActivity());
     }
 
@@ -75,8 +73,7 @@ public class AddMeetingActivity extends AppCompatActivity implements AdapterView
      */
     private void participantEmailToChip() {
         binding.emailOkButton.setOnClickListener(view -> {
-            if (!Objects.requireNonNull(binding.participantsInput.getText()).toString().isEmpty() &&
-                    Patterns.EMAIL_ADDRESS.matcher(binding.participantsInput.getText().toString()).matches()) {
+            if (!Objects.requireNonNull(binding.participantsInput.getText()).toString().isEmpty() && Patterns.EMAIL_ADDRESS.matcher(binding.participantsInput.getText().toString()).matches()) {
                 Chip emailParticipant = new Chip(this);
                 emailParticipant.setCloseIconVisible(true);
                 emailParticipant.setText(binding.participantsInput.getText().toString());
@@ -89,7 +86,8 @@ public class AddMeetingActivity extends AppCompatActivity implements AdapterView
                 binding.participantsLayout.setError(null);
                 binding.participantsInput.setText("");
                 binding.participantsInput.onEditorAction(EditorInfo.IME_ACTION_DONE);
-            } else {
+            }
+            else {
                 binding.participantsLayout.setError(getString(R.string.erreur_mail));
             }
         });
@@ -110,21 +108,16 @@ public class AddMeetingActivity extends AppCompatActivity implements AdapterView
                 return;
             }
 
-            if (!Objects.requireNonNull(binding.participantsInput.getText()).toString().isEmpty() &&
-                    !Patterns.EMAIL_ADDRESS.matcher(binding.participantsInput.getText().toString()).matches()) {
+            if (!Objects.requireNonNull(binding.participantsInput.getText()).toString().isEmpty() && !Patterns.EMAIL_ADDRESS.matcher(binding.participantsInput.getText().toString()).matches()) {
                 Toast.makeText(this, R.string.erreur_mail, Toast.LENGTH_SHORT).show();
                 return;
             }
 
             if (addMeetingViewModel.getParticipants().size() < 2) {
                 Toast.makeText(this, R.string.erreur_minimum_mails, Toast.LENGTH_SHORT).show();
-            } else {
-                addMeetingViewModel.onAddButtonClicked(
-                        Objects.requireNonNull(binding.nameOfMeeting.getText()).toString(),
-                        binding.datePickerButton.getText().toString(),
-                        binding.startTimeButton.getText().toString(),
-                        binding.roomChoiceAddMeeting.getSelectedItem().toString()
-                );
+            }
+            else {
+                addMeetingViewModel.onAddButtonClicked(Objects.requireNonNull(binding.nameOfMeeting.getText()).toString(), binding.datePickerButton.getText().toString(), binding.startTimeButton.getText().toString(), binding.roomChoiceAddMeeting.getSelectedItem().toString());
             }
         });
     }
@@ -140,9 +133,8 @@ public class AddMeetingActivity extends AppCompatActivity implements AdapterView
      * Auto completion for spinner (list of rooms)
      */
     private void initAutoCompletion() {
-        Spinner spinner = findViewById(R.id.roomChoiceAddMeeting);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.roomNumber, android.R.layout.simple_spinner_item);
+        Spinner spinner = binding.roomChoiceAddMeeting;
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.roomNumber, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);

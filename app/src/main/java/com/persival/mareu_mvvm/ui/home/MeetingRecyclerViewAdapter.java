@@ -17,13 +17,23 @@ import java.util.List;
 
 public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecyclerViewAdapter.ViewHolder> {
 
+    private final OnMeetingDeletedListener mOnMeetingDeletedListener;
     private List<Meeting> meetings;
-    private final EventsMeeting eventsMeeting;
 
-    public MeetingRecyclerViewAdapter(EventsMeeting eventsMeeting) {
-        this.eventsMeeting = eventsMeeting;
+    /**
+     * Instantiates a new adapter for the delete listener
+     *
+     * @param onMeetingDeletedListener the on meeting deleted listener
+     */
+    public MeetingRecyclerViewAdapter(OnMeetingDeletedListener onMeetingDeletedListener) {
+        this.mOnMeetingDeletedListener = onMeetingDeletedListener;
     }
 
+    /**
+     * Sets meetings with notify data changed
+     *
+     * @param meetings the meetings
+     */
     public void setMeetings(List<Meeting> meetings) {
         this.meetings = meetings;
         notifyDataSetChanged();
@@ -44,7 +54,7 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
         holder.mListMails.setSelected(true);
         holder.mListMails.setText(meeting.getMails());
         holder.mRoomNumber.setText(meeting.getMeetingRoom());
-        holder.mDeleteButton.setOnClickListener(v -> eventsMeeting.onDelete(meeting));
+        holder.mDeleteButton.setOnClickListener(v -> mOnMeetingDeletedListener.onDelete(meeting));
     }
 
     @Override
@@ -53,13 +63,17 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-
         public ImageView mIcon;
         public TextView mList;
         public TextView mListMails;
         public TextView mRoomNumber;
         public ImageButton mDeleteButton;
 
+        /**
+         * Instantiates a new View holder.
+         *
+         * @param itemView the item view
+         */
         public ViewHolder(View itemView) {
             super(itemView);
             mIcon = itemView.findViewById(R.id.item_list_icon);

@@ -17,7 +17,7 @@ import com.persival.mareu_mvvm.ui.utils.SpinnerDialogFragment;
 
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private ActivityMainBinding binding;
     private MeetingViewModel meetingViewModel;
@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         if (id == R.id.location_filter) {
             SpinnerDialogFragment.newInstance().show(getSupportFragmentManager(), null);
-
             return true;
         }
 
@@ -57,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             meetingViewModel.getMeetings(null, null);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

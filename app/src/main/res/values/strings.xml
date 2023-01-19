@@ -65,6 +65,11 @@
     <string name="erreur_heure_reunion">Merci de remplir le champs -Heure de la réunion-</string>
     <string name="erreur_mail">Veuillez entrer une adresse mail valide</string>
     <string name="erreur_minimum_mails">Veuillez entrer au moins 2 adresses mail</string>
+    <string name="choose_your_room">Choose your room</string>
+    <string name="room_one_spinner">Room One</string>
+    <string name="ok_spinner">Ok</string>
+    <string name="menu_choix_salle">Menu choix salle</string>
+    <string name="number_of_room">10</string>
     Merci de remplir le champs 'Objet de la réunion'
 
 

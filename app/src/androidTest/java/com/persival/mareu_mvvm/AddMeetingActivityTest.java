@@ -5,9 +5,11 @@ import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.doubleClick;
 import static androidx.test.espresso.action.ViewActions.pressImeActionButton;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
+import static androidx.test.espresso.action.ViewActions.swipeUp;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
@@ -53,88 +55,16 @@ public class AddMeetingActivityTest {
             new ActivityScenarioRule<>(MainActivity.class);
 
     @Test
-    public void datePickerTest() {
-        onView(withId(R.id.floatingActionButton)).perform(click());
-
-        onView(withId(R.id.datePickerButton)).perform(click());
-        onView(withClassName(equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(10, 2, 2023));
-
-        onView(withText("OK")).perform(click());
-
-        closeSoftKeyboard();
-    }
-
-    @Test
-    public void timePickerTest() {
-        onView(withId(R.id.floatingActionButton)).perform(click());
-
-        onView(withId(R.id.startTimeButton)).perform(click());
-        onView(withClassName(equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime(14, 0));
-
-        onView(withText("OK")).perform(click());
-
-        closeSoftKeyboard();
-    }
-
-    @Test
-    public void roomChoiceTest() {
-        onView(withId(R.id.floatingActionButton)).perform(click());
-
-        onView(withId(R.id.roomChoiceAddMeeting)).perform(click());
-
-        onData(anything())
-                .inAdapterView(withClassName(is("androidx.appcompat.widget.DropDownListView")))
-                .atPosition(4).perform(click());
-
-        onView(withId(R.id.nameOfMeeting)).perform(scrollTo(), replaceText("Reunion"));
-    }
-
-    @Test
-    public void participantsInputTest() {
-        onView(withId(R.id.floatingActionButton)).perform(click());
-
-        onView(withId(R.id.participants_input)).perform(scrollTo(), replaceText("admin@lamzone.fr"), closeSoftKeyboard());
-
-        ViewInteraction floatingActionButton2 = onView(
-                allOf(withId(R.id.email_ok_button), withContentDescription("Ajouter un mail"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.ScrollView")),
-                                        0),
-                                6)));
-        floatingActionButton2.perform(scrollTo(), click());
-
-        onView(withId(R.id.participants_input)).perform(pressImeActionButton());
-        onView(withId(R.id.participants_input)).perform(scrollTo(), click());
-        onView(withId(R.id.participants_input)).perform(scrollTo(), replaceText("direction@lamzone.fr"), closeSoftKeyboard());
-
-        ViewInteraction floatingActionButton3 = onView(
-                allOf(withId(R.id.email_ok_button), withContentDescription("Ajouter un mail"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.ScrollView")),
-                                        0),
-                                6)));
-        floatingActionButton3.perform(scrollTo(), click());
-
-        onView(withId(R.id.participants_input)).perform(pressImeActionButton());
-
-        onView(withId(R.id.saveButton)).perform(scrollTo(), click());
-    }
-
-    @Test
     public void isReunionAddedTest() {
         onView(withId(R.id.floatingActionButton)).perform(click());
 
         onView(withId(R.id.datePickerButton)).perform(click());
-        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(10, 2, 2023));
-        onView(withText("OK")).perform(click());
-        closeSoftKeyboard();
+        onView(withClassName(Matchers.equalTo(DatePicker.class.getName()))).perform(PickerActions.setDate(2023, 2, 17));
+        onView(withId(android.R.id.button1)).perform(doubleClick());
 
         onView(withId(R.id.startTimeButton)).perform(click());
         onView(withClassName(Matchers.equalTo(TimePicker.class.getName()))).perform(PickerActions.setTime(14, 0));
-        onView(withText("OK")).perform(click());
-        closeSoftKeyboard();
+        onView(withId(android.R.id.button1)).perform(click());
 
         onView(withId(R.id.roomChoiceAddMeeting)).perform(click());
         onData(anything())
@@ -145,38 +75,37 @@ public class AddMeetingActivityTest {
 
         onView(withId(R.id.participants_input)).perform(scrollTo(), replaceText("admin@lamzone.fr"), closeSoftKeyboard());
 
-        ViewInteraction floatingActionButton2 = onView(
+        onView(
                 allOf(withId(R.id.email_ok_button), withContentDescription("Ajouter un mail"),
                         childAtPosition(
                                 childAtPosition(
                                         withClassName(is("android.widget.ScrollView")),
                                         0),
-                                6)));
-        floatingActionButton2.perform(scrollTo(), click());
+                                6))).perform(scrollTo(), click());
 
         onView(withId(R.id.participants_input)).perform(pressImeActionButton());
         onView(withId(R.id.participants_input)).perform(scrollTo(), click());
         onView(withId(R.id.participants_input)).perform(scrollTo(), replaceText("direction@lamzone.fr"), closeSoftKeyboard());
 
-        ViewInteraction floatingActionButton3 = onView(
-                allOf(withId(R.id.email_ok_button), withContentDescription("Ajouter un mail"),
+        onView(allOf(withId(R.id.email_ok_button), withContentDescription("Ajouter un mail"),
+                childAtPosition(
                         childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.ScrollView")),
-                                        0),
-                                6)));
-        floatingActionButton3.perform(scrollTo(), click());
+                                withClassName(is("android.widget.ScrollView")),
+                                0),
+                        6))).perform(scrollTo(), click());
 
         onView(withId(R.id.participants_input)).perform(pressImeActionButton());
 
         onView(withId(R.id.saveButton)).perform(scrollTo(), click());
 
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.item_list_name), withText("Reunion Le 10 FEV 2023 à 14:00"),
+        onView(withId(R.id.listOfMeeting)).perform(swipeUp());
+
+        onView(
+                allOf(withId(R.id.item_list_name), withText("Reunion Le 17 FEV 2023 à 14:00"),
                         withParent(allOf(withId(R.id.item),
                                 withParent(withId(R.id.listOfMeeting)))),
-                        isDisplayed()));
-        textView.check(matches(withText("Reunion Le 10 FEV 2023 à 14:00")));
+                        isDisplayed())).check(matches(withText("Reunion Le 17 FEV 2023 à 14:00")));
+
     }
 
     private static Matcher<View> childAtPosition(

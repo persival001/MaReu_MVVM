@@ -28,7 +28,7 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class FilterActivityTest {
+public class AllFiltersTest {
 
     @Rule
     public ActivityScenarioRule<MainActivity> mActivityScenarioRule =
@@ -60,7 +60,7 @@ public class FilterActivityTest {
                 allOf(withId(R.id.ok_button), withText("Ok"),
                         childAtPosition(
                                 childAtPosition(
-                                        withClassName(is("androidx.constraintlayout.widget.ConstraintLayout")),
+                                        withId(android.R.id.content),
                                         0),
                                 2),
                         isDisplayed()));

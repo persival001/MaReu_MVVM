@@ -10,6 +10,7 @@ import java.util.List;
 public interface MeetingApiService {
     /**
      * Get all my Meetings
+     *
      * @return {@link List}
      */
     List<Meeting> getMeetings();

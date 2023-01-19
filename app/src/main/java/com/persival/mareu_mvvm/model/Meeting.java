@@ -64,23 +64,26 @@ public class Meeting {
         return mails;
     }
 
-    public void setMails(String mails) { this.mails = mails;
+    public void setMails(String mails) {
+        this.mails = mails;
     }
 
-    public String getMeetingItemDisplay () {
+    public String getMeetingItemDisplay() {
         return topic + " Le " + date + " à " + startHour;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Meeting meeting = (Meeting) o;
-        return Objects.equals(id, meeting.id);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Meeting meeting = (Meeting) o;
+        return Objects.equals(id, meeting.id);
     }
 }

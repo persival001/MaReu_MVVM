@@ -1,6 +1,5 @@
 package com.persival.mareu_mvvm.ui.utils;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,7 @@ import com.persival.mareu_mvvm.R;
 import com.persival.mareu_mvvm.databinding.DialogFragmentSpinnerBinding;
 import com.persival.mareu_mvvm.ui.home.MeetingViewModel;
 
-public class SpinnerDialogFragment extends DialogFragment implements AdapterView.OnItemSelectedListener{
+public class SpinnerDialogFragment extends DialogFragment implements AdapterView.OnItemSelectedListener {
 
     private DialogFragmentSpinnerBinding binding;
     private MeetingViewModel meetingViewModel;
@@ -29,10 +28,9 @@ public class SpinnerDialogFragment extends DialogFragment implements AdapterView
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+    public View onCreateView(
+        @NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DialogFragmentSpinnerBinding.inflate(getLayoutInflater());
-        builder.setView(binding.getRoot()).create();
         meetingViewModel = new ViewModelProvider(requireActivity()).get(MeetingViewModel.class);
 
         initAutoCompletion();
@@ -40,21 +38,20 @@ public class SpinnerDialogFragment extends DialogFragment implements AdapterView
         return binding.getRoot();
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
     /**
      * Auto completion for list of rooms
      */
     private void initAutoCompletion() {
-        Spinner spinner = binding.roomChoice;
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.roomNumber, android.R.layout.simple_spinner_item);
+            R.array.roomNumber, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        binding.roomChoice.setAdapter(adapter);
+        binding.roomChoice.setOnItemSelectedListener(this);
     }
 
     @Override

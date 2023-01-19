@@ -104,13 +104,7 @@ public class MeetingRepository {
         return participants;
     }
 
-    public void addNewMeeting(
-            String topic,
-            String date,
-            String startHour,
-            String roomNumber,
-            String emails
-    ) {
+    public void addNewMeeting(String topic, String date, String startHour, String roomNumber, String emails) {
 
         Meeting meeting = new Meeting(maxId++, topic, date, startHour, roomNumber, emails);
         addMeeting(meeting);

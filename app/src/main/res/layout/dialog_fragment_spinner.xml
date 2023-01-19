@@ -1,58 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     tools:context="com.persival.mareu_mvvm.ui.utils.SpinnerDialogFragment">
 
-    <LinearLayout
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:orientation="vertical"
+    <TextView
+        android:id="@+id/text_room_choice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/choose_your_room"
+        android:textAlignment="center"
+        android:textColor="#050000"
+        android:textSize="16sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/text_room_choice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Choose your room"
-            android:textAlignment="center"
-            android:textColor="#050000"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <Spinner
+        android:id="@+id/room_choice"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="@dimen/defaultMarge24dp"
+        android:layout_marginTop="@dimen/defaultMarge24dp"
+        android:layout_marginEnd="@dimen/defaultMarge24dp"
+        android:layout_marginBottom="@dimen/defaultMarge24dp"
+        android:contentDescription="@string/menu_choix_salle"
+        android:text="@string/room_one_spinner"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_room_choice" />
 
-        <Spinner
-            android:id="@+id/room_choice"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_marginStart="@dimen/defaultMarge24dp"
-            android:layout_marginEnd="@dimen/defaultMarge24dp"
-            android:layout_marginTop="@dimen/defaultMarge24dp"
-            android:layout_marginBottom="@dimen/defaultMarge24dp"
-            android:textAlignment="center"
-            android:text="Room One"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_room_choice" />
+    <Button
+        android:id="@+id/ok_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/defaultMarge24dp"
+        android:layout_marginEnd="@dimen/defaultMarge24dp"
+        android:layout_marginBottom="@dimen/defaultMarge24dp"
+        android:text="@string/ok_spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/room_choice" />
 
-        <Button
-            android:id="@+id/ok_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/defaultMarge24dp"
-            android:layout_marginEnd="@dimen/defaultMarge24dp"
-            android:text="Ok"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/room_choice" />
-
-    </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

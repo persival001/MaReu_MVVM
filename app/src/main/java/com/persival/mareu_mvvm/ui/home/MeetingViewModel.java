@@ -13,13 +13,16 @@ import java.util.List;
 /**
  * The type Meeting view model.
  */
-public class  MeetingViewModel extends ViewModel {
+public class MeetingViewModel extends ViewModel {
 
     private final MutableLiveData<List<Meeting>> meetingsMutableLiveData = new MutableLiveData<>();
     public LiveData<List<Meeting>> meetingsLiveData = meetingsMutableLiveData;
 
     /**
-     * Gets meetings.
+     * Gets meetings
+     * 1 - With filterType null and filterValue null we get a complete list
+     * 2 - With filterType room and filterValue number of room we get a filtered list by room
+     * 3 - With filterType date and filterValue date we get a filtered list by date
      *
      * @param filterType  the filter type
      * @param filterValue the filter value
@@ -29,16 +32,16 @@ public class  MeetingViewModel extends ViewModel {
     }
 
     /**
-     * Delete meeting.
+     * Delete meeting liveData
      *
      * @param meeting the meeting
      */
-    public void deleteMeeting(Meeting meeting) {
+    public void onDeleteButtonClicked(Meeting meeting) {
         meetingsMutableLiveData.setValue(MeetingRepository.getInstance().deleteMeeting(meeting));
     }
 
     /**
-     * Gets room string.
+     * Gets room string for filterValue
      *
      * @param roomSpinner the room number
      * @return the room string

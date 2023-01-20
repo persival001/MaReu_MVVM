@@ -18,8 +18,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_circle_24"
-        tools:ignore="ImageContrastCheck" />
+        app:srcCompat="@drawable/ic_baseline_circle_24"/>
 
     <TextView
         android:id="@+id/item_list_name"
@@ -31,6 +30,7 @@
         android:textColor="#000000"
         android:textSize="16sp"
         android:textStyle="bold"
+        tools:text="Reunion le 10 FEV 2023"
         app:layout_constraintEnd_toStartOf="@+id/item_list_delete_button"
         app:layout_constraintStart_toEndOf="@+id/item_list_icon"
         app:layout_constraintTop_toTopOf="@+id/item_list_icon" />
@@ -46,6 +46,7 @@
         android:singleLine="true"
         android:textSize="14sp"
         android:textStyle="normal"
+        tools:text="Emails"
         app:layout_constraintBottom_toBottomOf="@+id/item_list_icon"
         app:layout_constraintEnd_toStartOf="@+id/item_list_delete_button"
         app:layout_constraintStart_toEndOf="@+id/item_list_icon" />
@@ -70,7 +71,7 @@
         android:id="@+id/item_list_room_number"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:text="@string/number_of_room"
+        tools:text="@string/number_of_room"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="35sp"

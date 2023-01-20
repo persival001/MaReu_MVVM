@@ -30,6 +30,7 @@
         android:name="com.persival.mareu_mvvm.ui.home.MeetingFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        tools:layout ="@layout/fragment_meeting"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

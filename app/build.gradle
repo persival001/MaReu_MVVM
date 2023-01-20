@@ -34,16 +34,6 @@ android {
     buildFeatures {
         viewBinding true
     }
-
-    task generateJavadoc(type: Javadoc) {
-        title = "Javadoc MaRéu"
-        description "La javadoc de MaRéu"
-        failOnError = false
-        source = "MonProjet/src"
-        options.charSet = "UTF-8"
-        destinationDir = new File("build/target/javadoc")
-    }
-
 }
 
 dependencies {
@@ -57,6 +47,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation fileTree(dir: '/Users/maitre/Library/Android/sdk/platforms/android-33', include: ['*.aar', 'javac/*.jar'], exclude: [])
 
     // Units Tests
     testImplementation 'junit:junit:4.13.2'
@@ -69,6 +60,4 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.5.1'
     androidTestUtil 'androidx.test:orchestrator:1.4.2'
-
-
 }

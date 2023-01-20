@@ -12,9 +12,8 @@ public class MeetingRepository {
     private static MeetingRepository INSTANCE;
     private final List<String> participants = new ArrayList<>();
     private final MeetingApiService service = DI.getMeetingApiService();
-    private final MeetingApiService newService = DI.getNewInstanceApiService();
 
-    public long maxId = 8;
+    public long maxId = 0;
 
     /**
      * Singleton for get instance of MeetingRepository
@@ -49,10 +48,11 @@ public class MeetingRepository {
     /**
      * Deletes a meeting.
      *
-     * @param meeting the meeting
+     * @param meetingId the meeting id
+     * @return the list
      */
-    public List<Meeting> deleteMeeting(Meeting meeting) {
-        service.deleteMeeting(meeting);
+    public List<Meeting> deleteMeeting(long meetingId) {
+        service.deleteMeeting(meetingId);
         return service.getMeetings();
     }
 

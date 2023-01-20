@@ -21,6 +21,7 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.TextInputEditText;
 import com.persival.mareu_mvvm.R;
 import com.persival.mareu_mvvm.databinding.ActivityAddMeetingBinding;
+import com.persival.mareu_mvvm.ui.utils.ViewModelFactory;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -39,7 +40,7 @@ public class AddMeetingActivity extends AppCompatActivity implements AdapterView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        addMeetingViewModel = new ViewModelProvider(this).get(AddMeetingViewModel.class);
+        addMeetingViewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(AddMeetingViewModel.class);
 
         binding = ActivityAddMeetingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

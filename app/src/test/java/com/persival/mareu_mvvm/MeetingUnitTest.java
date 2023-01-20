@@ -46,7 +46,7 @@ public class MeetingUnitTest {
     public void deleteMeetingWithSuccess() {
         Meeting meetingToDelete = service.getMeetings().get(0);
         assertTrue(service.getMeetings().contains(meetingToDelete));
-        service.deleteMeeting(meetingToDelete);
+        service.deleteMeeting(1);
         assertFalse(service.getMeetings().contains(meetingToDelete));
     }
 

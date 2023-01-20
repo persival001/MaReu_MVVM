@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.persival.mareu_mvvm.databinding.FragmentMeetingBinding;
 import com.persival.mareu_mvvm.model.Meeting;
 import com.persival.mareu_mvvm.ui.add.AddMeetingActivity;
+import com.persival.mareu_mvvm.ui.utils.ViewModelFactory;
 
 
 public class MeetingFragment extends Fragment {
@@ -25,8 +26,8 @@ public class MeetingFragment extends Fragment {
     private final MeetingRecyclerViewAdapter meetingRecyclerViewAdapter = new MeetingRecyclerViewAdapter(
             new OnMeetingDeletedListener() {
                 @Override
-                public void onDelete(Meeting meeting) {
-                    meetingViewModel.onDeleteButtonClicked(meeting);
+                public void onDelete(long meetingId) {
+                    meetingViewModel.onDeleteButtonClicked(meetingId);
                 }
             }
     );
@@ -34,7 +35,8 @@ public class MeetingFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        meetingViewModel = new ViewModelProvider(requireActivity()).get(MeetingViewModel.class);
+        assert getActivity() != null;
+        meetingViewModel = new ViewModelProvider(getActivity(), ViewModelFactory.getInstance()).get(MeetingViewModel.class);
         meetingViewModel.meetingsLiveData.observe(this, meetings -> {
             meetingRecyclerViewAdapter.setMeetings(meetings);
         });

@@ -28,13 +28,9 @@ public class MeetingViewModel extends ViewModel {
         meetingsMutableLiveData.setValue(MeetingRepository.getInstance().getMeetings(filterType, filterValue));
     }
 
-    /**
-     * Delete meeting liveData
-     *
-     * @param meeting the meeting
-     */
-    public void onDeleteButtonClicked(Meeting meeting) {
-        meetingsMutableLiveData.setValue(MeetingRepository.getInstance().deleteMeeting(meeting));
+
+    public void onDeleteButtonClicked(long meetingId) {
+        meetingsMutableLiveData.setValue(MeetingRepository.getInstance().deleteMeeting(meetingId));
     }
 
     /**

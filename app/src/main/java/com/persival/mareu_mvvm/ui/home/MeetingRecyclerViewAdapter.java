@@ -54,7 +54,7 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
         holder.mListMails.setSelected(true);
         holder.mListMails.setText(meeting.getMails());
         holder.mRoomNumber.setText(meeting.getMeetingRoom());
-        holder.mDeleteButton.setOnClickListener(v -> mOnMeetingDeletedListener.onDelete(meeting));
+        holder.mDeleteButton.setOnClickListener(v -> mOnMeetingDeletedListener.onDelete(meeting.getId()));
     }
 
     @Override

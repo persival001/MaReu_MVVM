@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.persival.mareu_mvvm.databinding.ActivityMainBinding;
 import com.persival.mareu_mvvm.ui.home.MeetingViewModel;
 import com.persival.mareu_mvvm.ui.utils.SpinnerDialogFragment;
+import com.persival.mareu_mvvm.ui.utils.ViewModelFactory;
 
 import java.util.Calendar;
 
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         initDatePicker();
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
-        meetingViewModel = new ViewModelProvider(this).get(MeetingViewModel.class);
+        meetingViewModel = new ViewModelProvider(this, ViewModelFactory.getInstance()).get(MeetingViewModel.class);
     }
 
     @Override

@@ -7,7 +7,7 @@ public interface OnMeetingDeletedListener {
     /**
      * Listen the trash button for delete the selected item
      *
-     * @param meeting the meeting
+     * @param meetingId the meeting id
      */
-    void onDelete(Meeting meeting);
+    void onDelete(long meetingId);
 }
